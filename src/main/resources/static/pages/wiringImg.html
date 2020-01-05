@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en-us" id="extr-page">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="../../css/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+<link rel="stylesheet" href="../../css/ztree/zTree.css" type="text/css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../layui/css/layui.css">
+<link rel="stylesheet" href="../../css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="../../css/bootstrap-table.css" type="text/css">
+<link rel="stylesheet" href="../../css/common.css" type="text/css">
+</head>
+<style type="text/css">
+
+	.svg::-webkit-scrollbar {/*滚动条整体样式*/
+          width: 4px;     /*高宽分别对应横竖滚动条的尺寸*/
+          height: 4px;
+     }
+    .svg::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+          border-radius: 5px;
+          -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+          background: rgba(0,0,0,0.2);
+    }
+    .svg::-webkit-scrollbar-track {/*滚动条里面轨道*/
+          -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+          border-radius: 0;
+          background: rgba(0,0,0,0.1);
+    }
+	
+</style>
+<body>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	
+		<div class="layui-tab-content" style="min-height: 150px; padding: 5px 0 0 0;width: 100%;">
+			<div class="layui-tab-item layui-show" >
+				<iframe id="svg" src="css.html" style="width: 100%; border: 1px solid #c3c3c3;"></iframe>
+			</div>
+		</div>
+	
+	</div>
+	
+	
+
+	<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="../../js/jq.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script type="text/javascript" src="../../layui/layui.js"></script>
+	<script type="text/javascript" src="../../js/libs/jquery.ztree.all-3.5.min.js"></script>
+	<script type="text/javascript" src="../../js/module/ztree-device.js"></script>
+	<script type="text/javascript" src="../../js/module/elec/dayElectricList.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../../js/plugin/mqttws31.js"></script>
+	<script type="text/javascript" src="../../js/plugin/bootstraptable/bootstrap-table.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../../js/plugin/bootstraptable/bootstrap-table-zh-CN.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../../js/plugin/bootstrap/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../js/libs/jquery.query-2.1.7.js" charset="UTF-8"></script>
+
+	
+	<script type="text/javascript">
+	 
+		layui.use(['layer','laydate'], function(){
+		    var layer = layui.layer;
+		    
+		    $("#svg").css("height", $(window).height()-52);
+		});
+		
+		
+	</script>
+</body>
+</html>

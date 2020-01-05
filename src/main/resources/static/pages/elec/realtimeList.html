@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en-us" id="extr-page">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="../../../css/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+<link rel="stylesheet" href="../../../css/ztree/zTree.css" type="text/css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../../layui/css/layui.css">
+<link rel="stylesheet" href="../../../css/bootstrap.css" type="text/css">
+<link rel="stylesheet" href="../../../css/bootstrap-table.css" type="text/css">
+<link rel="stylesheet" href="../../../css/common.css" type="text/css">
+</head>
+<body>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				
+		<div class="form-inline">
+			<div class="form-group" style="border-bottom: 3px solid #337AB7; width:100%;" >
+				<div class="form-group pull-right">
+					<ul id="Ul1" class="nav nav-tabs my-nav my-nav-tabs" style="border-bottom: 0px solid #337AB7;">
+						
+					    <!--<li id="tab7" class="myTab pull-right"><a href="#" data-toggle="tab" onclick="showPage(6)">谐波</a></li> -->
+						
+						<li id="tab5" class="myTab pull-right"><a href="#" data-toggle="tab" onclick="showPage(5)">功率因数</a></li>
+						
+						<li id="tab4" class="myTab pull-right"><a href="#" data-toggle="tab" onclick="showPage(4)">电流</a></li>
+						
+						<li id="tab3" class="myTab pull-right"><a href="#" data-toggle="tab" onclick="showPage(3)">电压</a></li>
+						
+					    <li id="tab2" class="myTab pull-right "><a href="#" data-toggle="tab" onclick="showPage(2)">示数</a></li>
+						
+						<li id="tab1" class="myTab pull-right active"><a href="#" data-toggle="tab" onclick="showPage(1)">负荷</a></li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div class="box" class="form-inline" style="margin-top: 5px; overflow: hidden;" > 
+		    
+			<div style="width: 210px;float: left;">
+				<ul id="treeDevice" class="ztree"></ul>
+			</div>
+			
+		    <div style="float: left;margin-left: 10px;width:calc(100% - 220px)">
+	             <table id="dt-table" class="table table-striped table-bordered table-hover" style="width:100%"></table>
+		    </div>
+	  	</div>
+	</div>
+
+	<script type="text/javascript" src="../../../js/libs/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="../../../js/jq.js"></script>
+	<script type="text/javascript" src="../../../js/common.js"></script>
+	<script type="text/javascript" src="../../../layui/layui.js"></script>
+	<script type="text/javascript" src="../../../js/libs/jquery.ztree.all-3.5.min.js"></script>
+	<script type="text/javascript" src="../../../js/module/ztree-device.js"></script>
+	<script type="text/javascript" src="../../../js/module/elec/realtimeList.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../../../js/plugin/mqttws31.js"></script>
+	<script type="text/javascript" src="../../../js/plugin/bootstraptable/bootstrap-table.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../../../js/plugin/bootstraptable/bootstrap-table-zh-CN.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../../../js/plugin/bootstrap/bootstrap.min.js"></script>
+	
+	<script type="text/javascript">
+		layui.use('layer', function(){
+		    var layer = layui.layer;
+		    $("#treeDevice").css("height", $(window).height()-55);
+		});
+		
+		$.fn.zTree.init($("#treeDevice"), getSettting(), getMenuTree());
+	
+		init('');
+	    doConnect();
+	 
+	    var realtimeData = {};
+	    var deviceData = {};
+	    var showPageNum = 1;
+	    
+	    var electricData = [];    
+	    var indicateData = [];
+	    var voltageData = [];
+	    var currentData = [];
+	    var factorData = [];
+	   
+		function zTreeOnClick(event, treeId, treeNode, clickFlag) {
+			init(treeNode.id);
+		}
+		
+		function init(id){
+			$.ajax({
+				type : 'get',
+				url : '/elec/realtime/list?deviceId=' + id,
+				success : function(data) {
+					deviceData = data;
+					dataShow();
+				}
+			});
+		}
+		
+	   /**
+		* 数据展示
+		*/
+	   function dataShow(){
+		   
+		    electricData = [];    
+		    indicateData = [];
+		    voltageData = [];
+		    currentData = [];
+		    factorData = [];
+			
+			for(var i=0; i<deviceData.length; i++){
+				var d = deviceData[i];
+				var measPoints = d.measPoints;
+				
+				
+				var P;
+				var Pu;
+				var Pv;
+				var Pw;
+				var Q;
+				var Qu;
+				var Qv;
+				var Qw;
+				var PTime;
+				var time;
+				
+				var Ep;
+				var EpTime;
+				
+				var Va;
+				var Vb;
+				var Vc;
+				var VaTime;
+				
+				var Ia;
+				var Ib;
+				var Ic;
+				var IaTime;
+				
+				var Cos;
+				var CosTime;
+				
+				
+				for(var n=0; n<measPoints.length; n++){
+					var id = measPoints[n].id;
+					
+					switch(measPoints[n].measTypeCode){
+						case 'P':
+							P = realtimeData[id] != null?realtimeData[id].value:"-";
+							PTime = realtimeData[id] != null?new Date(realtimeData[id].time).Format("yyyy-MM-dd hh:mm:ss"):"-";
+							time = realtimeData[id] != null?new Date(realtimeData[id].time).Format("yyyy-MM-dd hh:mm:ss"):"-";
+							break;
+						case 'Pa':
+							Pu = realtimeData[id] != null?realtimeData[id].value:"-";
+						  	break;
+						case 'Pb':
+							Pv = realtimeData[id] != null?realtimeData[id].value:"-";
+						  	break;
+						case 'Pc':
+							Pw = realtimeData[id] != null?realtimeData[id].value:"-";
+						  	break;
+						case 'Q':
+							Q = realtimeData[id] != null?realtimeData[id].value:"-";
+						  	break;
+						case 'Qa':
+							Qu = realtimeData[id] != null?realtimeData[id].value:"-";
+						  	break;
+						case 'Qb':
+							Qv = realtimeData[id] != null?realtimeData[id].value:"-";
+						  	break;
+						case 'Qc':
+							Ep = realtimeData[id] != null?realtimeData[id].value:"-";
+						  	break;
+						
+						case 'Ep':
+							Qw = realtimeData[id] != null?realtimeData[id].value:"-";
+							EpTime = realtimeData[id] != null?new Date(realtimeData[id].time).Format("yyyy-MM-dd hh:mm:ss"):"-";
+						  	break;  	
+						 
+						case 'Va':
+							Va = realtimeData[id] != null?realtimeData[id].value:"-";
+							VaTime = realtimeData[id] != null?new Date(realtimeData[id].time).Format("yyyy-MM-dd hh:mm:ss"):"-";
+						  	break;  	
+						case 'Vb':
+							Vb = realtimeData[id] != null?realtimeData[id].value:"-";
+						  	break;
+						case 'Vc':
+							Vc = realtimeData[id] != null?realtimeData[id].value:"-";
+						  	break;  
+						  	
+						case 'Ia':
+							Ia = realtimeData[id] != null?realtimeData[id].value:"-";
+							IaTime = realtimeData[id] != null?new Date(realtimeData[id].time).Format("yyyy-MM-dd hh:mm:ss"):"-";
+						  	break;  	
+						case 'Ib':
+							Ib = realtimeData[id] != null?realtimeData[id].value:"-";
+						  	break;
+						case 'Ic':
+							Ic = realtimeData[id] != null?realtimeData[id].value:"-";
+						  	break;  
+						
+						case 'Cos':
+							Cos = realtimeData[id] != null?realtimeData[id].value:"-";
+							CosTime = realtimeData[id] != null?new Date(realtimeData[id].time).Format("yyyy-MM-dd hh:mm:ss"):"-";
+						  	break;  
+						  	
+						default:
+					}
+				}
+				
+				
+				var electricArr  =
+			     {
+			         "id" : i+1,
+			         "name" : d.name,
+			         "status" : "运行",
+			         "P" : P,
+			         "Pu" : Pu,
+			         "Pv" : Pv,
+			         "Pw" : Pw,
+			         "Q" : Q,
+			         "Qu" : Qu,
+			         "Qv" : Qv,
+			         "Qw" : Qw,
+			         "date" : time,
+			         "measPoints" : measPoints
+			     }
+				var indicateArr  =
+			     {
+			         "id" : i+1,
+			         "name" : d.name,
+			         "status" : "运行",
+			         "Ep" : Ep,
+			         "E1" : "-",
+			         "E2" : "-",
+			         "E3" : "-",
+			         "E4" : "-",
+			         "date" : EpTime,
+			         "measPoints" : measPoints
+			     }
+				var voltageArr  =
+			     {
+			         "id" : i+1,
+			         "name" : d.name,
+			         "status" : "运行",
+			         "Va" : Va,
+			         "Vb" : Vb,
+			         "Vc" : Vc,
+			         "date" : VaTime,
+			         "measPoints" : measPoints
+			     }
+				var currentArr  =
+			     {
+			         "id" : i+1,
+			         "name" : d.name,
+			         "status" : "运行",
+			         "Ia" : Ia,
+			         "Ib" : Ib,
+			         "Ic" : Ic,
+			         "date" : IaTime,
+			         "measPoints" : measPoints
+			     }
+				var factorArr  =
+			     {
+			         "id" : i+1,
+			         "name" : d.name,
+			         "status" : "运行",
+			         "standard" : "-",
+			         "cos" : Cos,
+			         "date" : CosTime,
+			         "measPoints" : measPoints
+			     }
+				
+				electricData.push(electricArr);
+				indicateData.push(indicateArr);
+				voltageData.push(voltageArr);
+				currentData.push(currentArr);
+				factorData.push(factorArr);
+			}
+				
+			showPage(showPageNum);
+		}
+		
+	   
+		function showPage(i) {
+			showPageNum = i;
+		    switch (i) {
+		        case 1:
+		        	electricTableInit(electricData);  //负荷
+		            break;
+		        case 2:
+		        	indicateTableInit(indicateData);  //示数
+		            break;
+		        case 3:
+		        	voltageTableInit(voltageData);  //电压
+		            break;
+		        case 4:
+		        	currentTableInit(currentData);   //电流
+		            break;
+		        case 5:
+		        	factorTableInit(factorData);    //功率因数
+		            break;
+		        default:
+		    }
+		    
+		}
+
+	    var client;
+		var index=0;
+        function doConnect() {
+	        console.log("connect invoked");
+	        // client = new Paho.MQTT.Client("10.82.58.95", Number(8080), "/mqtt", "clientId1");
+	        
+	        client = new Paho.MQTT.Client("118.31.2.207", Number(8080), "/mqtt", "clientId12");
+	        //client = new Paho.MQTT.Client("test.mosquitto.org", Number(8080), "", "clientId1");
+	        //client = new Paho.MQTT.Client("ws://whistler1.hursley.ibm.com", Number(1883), "ClientId");
+	
+	        client.startTrace();
+	        // set callback handlers
+	        client.onConnectionLost = onConnectionLost;
+	        client.onMessageArrived = onMessageArrived;
+	
+	        // connect the client
+	        client.connect({onSuccess:onConnect});
+	        console.log("connect finished");
+        }
+
+
+        // called when the client connects
+        function onConnect() {
+	        // Once a connection has been made, make a subscription and send a message.
+	        console.log("onConnect");
+	        client.subscribe("realtime");
+	        //message = new Paho.MQTT.Message("Hello");
+	        //message.destinationName = "mytopic";
+	        //client.send(message); 
+        }
+
+        // called when the client loses its connection
+        function onConnectionLost(responseObject) {
+	        if (responseObject.errorCode !== 0) {
+	          console.log("onConnectionLost:"+responseObject.errorMessage);
+	        }
+        }
+
+        // called when a message arrives
+        function onMessageArrived(message) {
+	        console.log("onMessageArrived:"+message.payloadString +"\t"+(index++));
+	
+	        var arry = JSON.parse(message.payloadString);
+	    	for(var i=0; i<arry.length; i++){
+	    		 realtimeData[arry[i].id] = arry[i];
+	    	}
+	    	
+	    	dataShow();
+        } 
+        
+	</script>
+</body>
+</html>

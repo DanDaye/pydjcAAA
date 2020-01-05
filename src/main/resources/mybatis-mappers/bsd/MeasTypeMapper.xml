@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wd.pydjc.bsd.dao.MeasTypeDao">
+
+	<resultMap id="BaseResultMap" type="MeasType">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="code" property="code" />  
+		<result column="code645" property="code645" />  
+		<result column="parentCode" property="parentCode" />  
+		<result column="monitor_type_id" property="monitorTypeId" />  
+		<result column="is_start" property="isStart" />  
+		<result column="unit" property="unit" />  
+		<result column="fc" property="fc" />  
+		<result column="standard_value" property="standardValue" />  
+		<result column="one_lower_limit" property="oneLowerLimit" />  
+		<result column="one_upper_limit" property="oneUpperLimit" />  
+		<result column="two_lower_limit" property="twoLowerLimit" />  
+		<result column="two_upper_limit" property="twoUpperLimit" />  
+		<result column="parent_id" property="parentId" />
+		<result column="three_lower_limit" property="threeLowerLimit" />
+		<result column="three_upper_limit" property="threeUpperLimit" />
+		<result column="limit_unit" property="limitUnit" />
+		<result column="continue_time" property="continueTime" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />		
+		
+	</resultMap>
+	<sql id="where">
+	
+	</sql>
+	<select id = "list" resultMap="BaseResultMap">
+		select t.*,m.`name` as monitorTypeName from bsd_meas_type t LEFT JOIN bsd_monitor_type m on t.monitor_type_id = m.id
+		<!--  where t.monitor_type_id = #{monitorTypeId} -->
+		 ${params.orderBy}
+        limit #{offset}, #{limit} 
+	</select>
+	<select id="getChildList" resultMap="BaseResultMap">
+		select t.*,p.code as parentCode from bsd_meas_type t,bsd_meas_type p where IFNULL(t.parent_id,t.id) = p.id 
+
+		<if test="params.parentCode != null and params.parentCode != ''">
+			and p.code  = #{params.parentCode}
+		</if>
+	</select>
+	
+	
+</mapper>

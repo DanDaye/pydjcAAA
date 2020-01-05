@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" media="screen" href="../../../../css/bootstrap.min.css">
+</head>
+<body>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<form class="form-horizontal" onsubmit="return false" id="form">
+		<input type="hidden" id="id" name="id">
+		<fieldset>
+			<div class="form-group">
+				<label class="col-md-2 control-label">公司名称</label>
+				<div class="col-md-10">
+					<input class="form-control" placeholder="公司名称" type="text" name="name" id="name"
+						data-bv-notempty="true"
+						data-bv-notempty-message="公司名称不能为空">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-md-2 control-label">简称</label>
+				<div class="col-md-10">
+					<input class="form-control" placeholder="简称" type="text" name="nameAbbr" id="nameAbbr">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">电话</label>
+				<div class="col-md-10">
+					<input class="form-control" placeholder="电话" type="text" maxlength="11" name="tel" id="tel">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">地址</label>
+				<div class="col-md-10">
+					<input class="form-control" placeholder="地址" type="text" maxlength="20" name="address" id="address">
+				</div>
+			</div>
+   			<div class="form-group">
+                <label class="col-md-2 control-label">状态</label>
+                <div class="col-md-10" style="width: 100px">
+                    <select class="form-control input-sm" name="status" id="status">
+                        <option value="1">正常</option>
+                        <option value="2">锁定</option>
+                        <option value="0">无效</option>
+                    </select>
+                </div>
+            </div>
+			<div class="form-actions">
+				<div class="row" align="center">
+					<div class="col-md-12">
+					    <button class="btn btn-primary" onclick="location.href='customerList.html'">返回</button>
+						<button class="btn btn-primary" type="submit" onclick="add()">
+							<i class="fa fa-save"></i> 保存
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+</div>
+	<script type="text/javascript" src="../../../../js/libs/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="../../../../js/jq.js"></script>
+	<script type="text/javascript" src="../../../../js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
+	<script type="text/javascript" src="../../../../js/common.js"></script>
+	<script type="text/javascript" src="../../../../layui/layui.js"></script>
+	<script type="text/javascript">
+		layui.use(['layer','laydate'], function(){
+		    var layer = layui.layer;
+		});
+		
+		initData();
+		
+		function initData(){
+			var id = getUrlParam("id");
+		
+			if(id != ""){
+				$.ajax({
+					type : 'get',
+					url : '/customer/'+id,
+					async : false,
+					success : function(data) {
+						$("#id").val(data.id);
+						$("#name").val(data.name);
+						$("#nameAbbr").val(data.nameAbbr);
+						$("#tel").val(data.tel);
+						$("#address").val(data.address);
+						$("#status").val(data.status);
+					}
+				});
+			}
+		}
+		
+		$('#form').bootstrapValidator();
+		
+		function add() {
+			var bootstrapValidator = $("#form").data('bootstrapValidator');
+			bootstrapValidator.validate();
+		    if(!bootstrapValidator.isValid()){
+			   return;
+		    }
+		    
+		    var formdata = $("#form").serializeObject();
+		 
+
+			$.ajax({
+				type : 'post',
+				url : '/customer',
+				contentType: "application/json; charset=utf-8",  
+				data : JSON.stringify(formdata),
+				success : function(data) {
+					layer.msg("成功", {shift: -1, time: 1000}, function(){
+                        location.href = "customerList.html";
+                    });
+				}
+			});
+		}
+		
+	</script>
+</body>
+</html>

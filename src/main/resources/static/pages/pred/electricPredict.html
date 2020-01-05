@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../css/font-awesome/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../../css/pingendo/theme.css" type="text/css">
+</head>
+
+<body>
+<div class="py-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"> <a href="" class="nav-link active" data-toggle="tab" data-target="#tabone">特征模型</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="" data-toggle="tab" data-target="#tabtwo">时间序列模型</a> </li>
+                </ul>
+                <div class="tab-content mt-2">
+                    <!--特征模型开始 -->
+                    <div class="tab-pane fade active show" id="tabone" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4><strong>电力负荷预测情况</strong></h4>
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#svr">SVR</a> </li>
+                                    <li class="nav-item"> <a class="nav-link active" href="" data-toggle="pill" data-target="#decisionTree">DecisionTree</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#adaboost">AdaBoost</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#extraTrees">ExtraTress</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#RandomForest">RandomForest</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#grandientBoosting">GrandientBoosting</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#kNeighbour">KNeighbour</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#adaBoost">AdaBoost</a> </li>
+                                </ul>
+                                <div class="tab-content mt-2">
+                                    <div class="tab-pane fade" id="svr" role="tabpanel" style="">
+                                        <div class="row">
+                                            <div class="col-md-12 py-3">
+                                                <div class="card pi-draggable" draggable="true">
+                                                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pi-draggable"></i>
+                                                    <img class="card-img-top" src="https://static.pingendo.com/cover-moon.svg" alt="Card image cap">
+                                                    <div class="card-body">
+                                                        <h6 class="card-title">电力负荷预测情况</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade active show" id="decisionTree" role="tabpanel" style="">
+                                        <p class="">decisionTree.</p>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="card pi-draggable" draggable="true">
+                                                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pi-draggable"></i>
+                                                    <img class="card-img-top" src="https://static.pingendo.com/cover-moon.svg" alt="Card image cap">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">电力负荷预测情况</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="adaboost" role="tabpanel">
+                                        <p class="">AdaBoost.</p>
+                                    </div>
+                                    <div class="tab-pane fade" id="extraTrees" role="tabpanel">
+                                        <p class="">ExtraTrees</p>
+                                    </div>
+                                    <div class="tab-pane fade" id="RandomForest" role="tabpanel">
+                                        <p class="">RandmForest</p>
+                                    </div>
+                                    <div class="tab-pane fade" id="grandientBoosting" role="tabpanel">
+                                        <p class="">GrandientBoosting</p>
+                                    </div>
+                                    <div class="tab-pane fade" id="kNeighbour" role="tabpanel">
+                                        <p class="">KNeighbour.</p>
+                                    </div>
+                                    <div class="tab-pane fade" id="adaBoost" role="tabpanel">
+                                        <p class="">AdaBoost.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 时间序列模型-->
+                    <div class="tab-pane fade" id="tabtwo" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4><strong>电力负荷预测情况</strong></h4>
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item"> <a href="" class="nav-link active" data-toggle="pill" data-target="#arima">ARIMA</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#gru">GRU</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#lstm">LSTM</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#rnn">RNN</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#seq2seq">Seq2Seq</a> </li>
+                                </ul>
+                                <div class="tab-content mt-2">
+                                    <div class="tab-pane fade active show" id="arima" role="tabpanel" style="">
+                                        <div class="row">
+                                            <div class="col-md-12 py-3">
+                                                <div class="card pi-draggable" draggable="true">
+                                                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pi-draggable" draggable="true"></i>
+                                                    <img class="card-img-top" src="https://static.pingendo.com/cover-moon.svg" alt="Card image cap">
+                                                    <div class="card-body">
+                                                        <h6 class="card-title">电力负荷预测情况</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="gru" role="tabpanel" style="">
+                                        <p class="">gru.</p>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="card pi-draggable" draggable="true">
+                                                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pi-draggable" draggable="true"></i>
+                                                    <img class="card-img-top" src="https://static.pingendo.com/cover-moon.svg" alt="Card image cap">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">电力负荷预测情况</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="lstm" role="tabpanel">
+                                        <p class="">lstm.</p>
+                                    </div>
+                                    <div class="tab-pane fade" id="rnn" role="tabpanel">
+                                        <p class="">rnn</p>
+                                    </div>
+                                    <div class="tab-pane fade" id="seq2seq" role="tabpanel">
+                                        <p class="">seq2seq</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../js/pingendo/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../js/pingendo/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous" style=""></script>
+<script src="../../js/pingendo/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous" style=""></script>
+</body>
+
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en-us" id="extr-page">
+<head>
+	<meta charset="UTF-8">
+
+	<link rel="stylesheet" type="text/css" media="screen"
+	href="../../../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+	href="../../../css/ztree/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" type="text/css"
+	href="../../../css/ztree/demo.css">
+<link rel="stylesheet" type="text/css" media="screen"
+	href="../../../layui/css/layui.css">
+</head>
+<style type="text/css">
+.col-md-2 {
+	width: 14%;
+	float: left;
+	position: relative;
+	min-height: 1px;
+	padding-left: 13px;
+	padding-right: 13px;
+}
+</style>
+<body>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+		<div class="row" align="left" style="margin: 0 0 10px 10px;">
+			<div class="col-md-12">
+				<button class="layui-btn layui-btn-small" onclick="add()">
+					<i class="layui-icon">&#xe608;</i> 添加
+				</button>
+				<button class="layui-btn layui-btn-small" onclick="remove()">
+					<i class="layui-icon">&#xe640;</i>删除
+				</button>
+				<button class="layui-btn layui-btn-small" onclick="monitor()">
+					<i class="layui-icon">&#xe640;</i>删除
+				</button>
+			</div>
+		</div>
+
+		<div style="width: 210px; float: left; height: 580px;">
+			<ul id="treeMonitorType" class="ztree" style="height: 567px"></ul>
+		</div>
+		<div style="float: left; margin-left: 10px; width: calc(100% - 220px)">
+			<form class="form-horizontal" onsubmit="return false" id="form">
+				<fieldset>
+					<input type="hidden" id="id" name="id">
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">监测类型名称</label>
+						<div class="col-md-10">
+							<input class="form-control" placeholder="" type="text"
+								name="name" id="name" data-bv-notempty="true"
+								data-bv-notempty-message="设备名不能为空">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">监测类型编码</label>
+						<div class="col-md-10">
+							<input class="form-control" placeholder="" type="text"
+								name="monitorTypeCode" id="monitorTypeCode">
+						</div>
+					</div>
+
+					<div class="form-actions">
+						<div class="row" align="center">
+							<div class="col-md-12">
+								<button class="btn btn-primary" type="button"
+									onclick="submitForm()">
+									<i class="fa fa-save"></i> 保存
+								</button>
+							</div>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+
+	<script type="text/javascript"
+		src="../../../js/libs/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="../../../js/jq.js"></script>
+	<script type="text/javascript"
+		src="../../../js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
+	<script type="text/javascript" src="../../../js/common.js"></script>
+	<script type="text/javascript" src="../../../layui/layui.js"></script>
+	<script type="text/javascript"
+		src="../../../js/libs/jquery.ztree.all-3.5.min.js"></script>
+	<script type="text/javascript"
+		src="../../../js/module/ztree-monitorType.js"></script>
+	<script type="text/javascript" src="../../../js/module/bsd/device.js"></script>
+	<script type="text/javascript">
+	
+	/*  	function getInfo() {
+			var s = "";
+			s += " 网页可见区域宽：" + document.body.clientWidth;
+			s += " 网页可见区域高：" + document.body.clientHeight;
+			s += " 网页可见区域宽：" + document.body.offsetWidth + " (包括边线和滚动条的宽)";
+			s += " 网页可见区域高：" + document.body.offsetHeight + " (包括边线的宽)";
+			s += " 网页正文全文宽：" + document.body.scrollWidth;
+			s += " 网页正文全文高：" + document.body.scrollHeight;
+			s += " 网页被卷去的高(ff)：" + document.body.scrollTop;
+			s += " 网页被卷去的高(ie)：" + document.documentElement.scrollTop;
+			s += " 网页被卷去的左：" + document.body.scrollLeft;
+			s += " 网页正文部分上：" + window.screenTop;
+			s += " 网页正文部分左：" + window.screenLeft;
+			s += " 屏幕分辨率的高：" + window.screen.height;
+			s += " 屏幕分辨率的宽：" + window.screen.width;
+			s += " 屏幕可用工作区高度：" + window.screen.availHeight;
+			s += " 屏幕可用工作区宽度：" + window.screen.availWidth;
+			s += " 你的屏幕设置是 " + window.screen.colorDepth + " 位彩色";
+			s += " 你的屏幕设置 " + window.screen.deviceXDPI + " 像素/英寸";
+			//alert (s); 
+		}
+		getInfo();  */
+
+		layui.use('layer', function() {
+			var layer = layui.layer;
+		});
+
+		$.fn.zTree.init($("#treeMonitorType"), getSettting(), getMenuTree());
+		var zTree = $.fn.zTree.getZTreeObj("treeMonitorType");
+
+		/* initDeviceType();
+		initVandor();
+		 */
+		 function monitor(){
+				nodes = zTree.getSelectedNodes();
+				treeNode = nodes[0];
+				if (nodes.length == 0) {
+					alert("请先选择一个节点");
+					return;
+				}
+				var monitorTypeId = treeNode.id;
+				window.location.href='measTypeList.html?monitorTypeId='+monitorTypeId;
+		 }
+		 
+		 
+		var newCount = 1;
+		function add(isParent) {
+			nodes = zTree.getSelectedNodes(), treeNode = nodes[0];
+			var node = {
+				parentId : treeNode == null ? 0 : treeNode.id,
+				name : "新增节点" + (newCount++)
+			}
+			$.ajax({
+				type : 'post',
+				url : '/monitorType/save',
+				contentType : "application/json; charset=utf-8",
+				data : JSON.stringify(node),
+				success : function(data) {
+
+					if (data != null && data != "") {
+						setForm(data);
+
+						if (treeNode) {
+							treeNode = zTree.addNodes(treeNode, {
+								id : data.id,
+								pId : treeNode.id,
+								isParent : isParent,
+								name : data.name
+							});
+						} else {
+							treeNode = zTree.addNodes(null, {
+								id : data.id,
+								pId : 0,
+								isParent : isParent,
+								name : data.name
+							});
+						}
+						if (treeNode) {
+							zTree.selectNode(treeNode[0]);
+						} else {
+							alert("叶子节点被锁定，无法增加子节点");
+						}
+					}
+				}
+			});
+
+		};
+
+		function remove(e) {
+
+			nodes = zTree.getSelectedNodes();
+			treeNode = nodes[0];
+			if (nodes.length == 0) {
+				alert("请先选择一个节点");
+				return;
+			}
+
+			layer.confirm('确定要删除吗？', {
+				btn : [ '确定', '取消' ]
+			}, function(index, layero) {
+				layer.close(index);
+				$.ajax({
+					type : 'post',
+					url : '/monitorType/delete',
+					contentType : "application/json; charset=utf-8",
+					data : JSON.stringify({
+						id : treeNode.id
+					}),
+					success : function(data) {
+						var callbackFlag = $("#callbackTrigger")
+								.attr("checked");
+						zTree.removeNode(treeNode, callbackFlag);
+					}
+				});
+			});
+
+		};
+
+		function zTreeOnClick(event, treeId, treeNode, clickFlag) {
+
+			$.ajax({
+				type : 'get',
+				url : '/monitorType/getMonitorTypeById?id=' + treeNode.id,
+				success : function(data) {
+					if (data != null && data != "") {
+						setForm(data);
+					} else {
+						$("#form")[0].reset();
+					}
+				}
+			});
+		}
+
+		$('#form').bootstrapValidator();
+
+		function submitForm() {
+			var bootstrapValidator = $("#form").data('bootstrapValidator');
+			bootstrapValidator.validate();
+			if (!bootstrapValidator.isValid()) {
+				return;
+			}
+
+			var formdata = $("#form").serializeObject();
+
+			$.ajax({
+				type : 'post',
+				url : '/monitorType/save',
+				contentType : "application/json; charset=utf-8",
+				data : JSON.stringify(formdata),
+				success : function(data) {
+					layer.msg("保存成功", {
+						shift : -1,
+						time : 1000
+					}, function() {
+						nodes = zTree.getSelectedNodes();
+						nodes[0].name = data.name;
+						zTree.updateNode(nodes[0]);
+					});
+				}
+			});
+		}
+
+		function setForm(data) {
+			$("#id").val(data.id);
+			$("#name").val(data.name);
+			$("#monitorTypeCode").val(data.monitorTypeCode);
+
+		}
+	</script>
+
+</body>
+</html>

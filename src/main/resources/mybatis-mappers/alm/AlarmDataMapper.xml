@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wd.pydjc.alm.dao.AlarmDao">
+
+	<resultMap id="BaseResultMap" type="AlarmData">
+		<id column="id" property="id" />
+		<result column="alarm_value" property="alarmValue" />
+		<result column="begin_time" property="beginTime" />
+		<result column="end_time" property="endTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="cfm_flag" property="cfmFlag" />
+		<result column="deviceName" property="deviceName" />
+		<result column="measPointName" property="measPointName" />
+		<result column="alarmTypeName" property="alarmTypeName" />
+		<result column="type" property="type" />
+	</resultMap>
+
+
+	<sql id="where">
+		<where>
+			<if test="params.cfmFlag != null and params.cfmFlag != ''">
+				and t.cfm_flag = #{params.cfmFlag}
+			</if>
+		</where>
+	</sql>
+
+	<select id="count" resultType="int">
+		select count(1) from alm_alarm_data t
+		<include refid="where" />
+	</select>
+
+	<select id="list" resultMap="BaseResultMap">
+		select * from alm_alarm_data t
+		<include refid="where" />
+		order by begin_time desc 
+        limit #{offset}, #{limit}
+	</select>
+
+	
+	<select id="getCurrentAlarmList" resultMap="BaseResultMap">
+	  SELECT t.*, d.`name` AS deviceName,
+		     mp.`name` as measPointName,
+		 	 aat.`name` as alarmTypeName
+		FROM
+			alm_alarm_data t,
+			bsd_device d,
+			bsd_meas_point mp,
+		    alm_alarm_type aat
+		WHERE t.end_time IS NULL
+		AND t.device_id = d.id
+		AND t.meas_point_id = mp.id
+		and t.alarm_type_id = aat.id
+		and t.cfm_flag = 0
+	</select>
+
+	
+</mapper>

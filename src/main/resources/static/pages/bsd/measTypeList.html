@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../../../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../../css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../../layui/css/layui.css">
+</head>
+<body>
+    <div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <header style="height: 100%">
+                    <div align="left">
+	                    <table style="width: 100%">
+	                   		<tr>
+	                   			<td>
+		                   			<form class="form-inline" onsubmit="return false">
+										<div class="form-group">
+											量测类型名称：
+											<input id="name" type="text" class="form-control" placeholder="量测类型名称">
+											<button id="searchBt" class="layui-btn layui-btn-small" permission="sys:role:query"><i class="layui-icon">&#xe615;</i>搜索</button>
+											<button class="layui-btn layui-btn-small" onclick="location.href='addMeasType.html'" permission="sys:role:add">
+                                      <i class="layui-icon">&#xe608;</i> 添加</button>
+											<button id="searchBt" class="layui-btn layui-btn-small" permission="sys:role:query"><i class="layui-icon">&#xe615;</i>删除</button>
+											<button id="searchBt" class="layui-btn layui-btn-small" permission="sys:role:query"><i class="layui-icon">&#xe615;</i>编辑</button>
+											<button id="searchBt" class="layui-btn layui-btn-small" permission="sys:role:query"><i class="layui-icon">&#xe615;</i>查看</button>
+										</div>
+									</form>
+	                   			</td>
+	                   			
+	                   		</tr> 
+	                    </table>
+					</div>
+                </header>
+                
+                <div>
+                    <div class="widget-body no-padding">
+                        <table id="dt-table" class="table table-striped table-bordered table-hover" style="width:100%">
+                            <thead>                     
+                                <tr>
+                                    <th >量测类型名称</th>
+									<th>量测类型编码</th>
+									<th>所属监测类型</th>
+									<th>遥测/遥信</th>
+									<th>单位</th>									
+									<th>一级下限阈值</th>
+									<th>一级上限阈值</th>
+									<th>二级下限阈值</th>
+									<th>二级上限阈值</th>
+									<th>阈值单位</th>
+									<th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript" src="../../../js/libs/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../../../js/jq.js"></script>
+<script type="text/javascript" src="../../../js/plugin/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../../js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="../../../layui/layui.js"></script>
+<script type="text/javascript" src="../../../js/module/permission.js"></script>
+<script type="text/javascript">
+var pers = checkPermission();
+
+var example;
+function init(){
+	function GetQueryString(name) {	 
+	    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	    var r = window.location.search.substr(1).match(reg);
+	    if (r != null) return unescape(r[2]); return null;
+	}
+	var monitorTypeId = GetQueryString("monitorTypeId");
+	console.log(monitorTypeId)
+	example = 
+    	$('#dt-table').DataTable({
+        	"searching": false,
+        	"processing": false,
+        	"serverSide" : true,
+        	"ajax": {
+        		//"url" : "/measType/"+monitorTypeId, 
+        		"url" : "/measType", 
+        		"type":"get",
+        		"data":function(d){
+    				d.name = $('#name').val();
+        		},
+    			"error":function(xhr, textStatus, errorThrown){
+    				var msg = xhr.responseText;
+    				console.log(msg)
+    			}
+        	},
+        	"dom": "<'dt-toolbar'r>t<'dt-toolbar-footer'<'col-sm-10 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-10' p v>>",	
+            "columns": [
+                { "data": "name", "defaultContent": ""},
+                { "data": "code", "defaultContent": ""},
+                { "data": "monitorTypeName", "defaultContent": ""},
+                { "data": "fc", "defaultContent": "",
+                	"render": function (data, type, row) {
+                		var fc = row['fc'];
+                		var a = "";
+                		if(	fc=="yx"){
+                			a = "遥信";
+                		} else if(fc == "yc"){
+                			a = "遥测";
+                		} 
+                    	return a;
+                  	}},
+                { "data": "unit", "defaultContent": ""},
+                { "data": "oneLowerLimit", "defaultContent": ""},
+                { "data": "oneUpperLimit", "defaultContent": ""},
+                { "data": "twoLowerLimit", "defaultContent": ""},
+                { "data": "twoUpperLimit", "defaultContent": ""},
+                { "data": "limitUnit", "defaultContent": ""},
+                { 
+                	"data": "", 
+                	"defaultContent": "",
+                	"render": function (data, type, row) {
+                		var id = row['id'];
+                		var href = "updateMeasType.html?id=" + id;
+                		var edit = buttonEdit(href, "sys:user:add", pers);
+                		var reset = buttonDel(id, "sys:role:del", pers);
+                        return edit + reset;
+                  }
+                },
+            ],
+            "order": [[ 2, "desc" ]]
+        } );
+}
+
+layui.use('layer', function(){
+    var layer = layui.layer;
+});
+
+function del(id){
+    layer.confirm('确定要删除吗？', {
+        btn : [ '确定', '取消' ]
+    }, function() {
+        $.ajax({
+            type : 'delete',
+            url : '/measType/'+id,
+            success : function(data) {
+                example.ajax.reload();
+                layer.msg("删除成功");
+            }
+        });
+        
+        layer.close(1);
+    });
+}
+function buttonResetPw(data, permission, pers){
+	
+	var btn = $("<button class='layui-btn layui-btn-mini' title='重置密码' onclick='resetPw(\"" + data +"\")'><i class='layui-icon'>&#xe631;</i></button>");
+	return btn.prop("outerHTML");
+}
+
+
+function resetPw(id){
+    layer.confirm('确定要重置密码吗？', {
+        btn : [ '确定', '取消' ]
+    }, function() {
+        $.ajax({
+            type : 'get',
+            url : '/users/resetPw/'+id,
+            success : function(data) {
+                example.ajax.reload();
+                layer.msg("重置成功");
+            }
+        });
+        
+        layer.close(1);
+    });
+}
+
+
+$("#searchBt").click(function(){
+	example.ajax.reload();
+});
+
+init();
+
+
+</script>

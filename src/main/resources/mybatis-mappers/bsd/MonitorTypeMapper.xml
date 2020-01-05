@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wd.pydjc.bsd.dao.MonitorTypeDao">
+
+	<resultMap id="BaseResultMap" type="MonitorType">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="monitor_type_code" property="monitorTypeCode" />		
+		<result column="parent_id" property="parentId" />
+		<result column="level" property="level" />
+		<result column="path_name" property="pathName" />
+		<!-- <result column="is_start" property="isStart" />
+		<result column="org_iId" property="orgId" />
+		<result column="vandor_id" property="vandorId" />
+		<result column="sort" property="sort" />
+		<result column="rdp_no" property="rpdNo" />
+		<result column="del_flag" property="delFlag" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" /> -->
+		
+	<!-- 	<association property="parent" javaType="Device">
+			<result property="id" column="parent_id" />
+			<result property="name" column="parent_name" />
+			<result property="no" column="no" />
+		</association>
+		<association property="deviceType" javaType="DeviceType">
+			<result property="id" column="device_type_id" />
+			<result property="name" column="name" />
+			<result property="code" column="code" />
+			<result property="desc" column="desc" />
+			<result property="icon" column="icon" />
+		</association>
+		                                      
+		<association property="vandor" column="vandor_id" javaType="com.wd.pydjc.bsd.model.Vandor">
+			<result property="id" column="vandor_id" />
+			<result property="short_name" column="shortName" />
+			<result property="long_name" column="longName" />
+		</association>
+		
+		<collection property="measPoints" column="device_id" ofType="com.wd.pydjc.bsd.model.MeasPoint">    
+            <result property="id" column="meas_point_id" />
+            <result property="name" column="meas_point_name" javaType="string" jdbcType="VARCHAR"/>    
+            <result property="measTypeCode" column="meas_type_code" javaType="string" jdbcType="VARCHAR"/>    
+        </collection>  -->   
+	</resultMap>
+
+<!-- 	<sql id="where">
+		<where>
+		    <if test="params.customerId != null and params.customerId != ''">
+				and t.customer_id = #{params.customerId}
+			</if>
+			<if test="params.id != null and params.id != ''">
+				and t.id = #{params.id}
+			</if>
+		</where>
+	</sql> -->
+
+	<!-- <select id="listAll" resultMap="BaseResultMap">
+		SELECT t.*,dt.id,dt.`code`,dt.`desc`,dt.`icon`
+		  FROM bsd_device t 
+		  LEFT JOIN bsd_device_type dt on t.device_type_id = dt.id
+		 where t.del_flag = 0
+	</select>
+	
+	<select id="getDeviceById" resultMap="BaseResultMap">
+		SELECT t.*,dt.id,dt.`code`,bv.id,bv.short_name,bd.id,bd.name as parent_name
+		  FROM bsd_device t 
+		  LEFT JOIN bsd_device_type dt on t.device_type_id = dt.id
+		  LEFT JOIN bsd_vandor bv on t.vandor_id = bv.id
+		  LEFT JOIN bsd_device bd on t.parent_id = bd.id
+		<include refid="where" />
+	</select>
+	
+	<select id="getDeviceIncludeMeasPoint" resultMap="BaseResultMap">
+  	    select t.*,mp.id as meas_point_id ,mp.`name` as meas_point_name,mt.`code` as meas_type_code
+  		  from bsd_device t,bsd_meas_point mp,bsd_meas_type mt
+  	     where EXISTS (select 1 from bsd_meas_point t1 where t1.device_id = t.id) and t.id = mp.device_id
+  	      and  FIND_IN_SET(t.id, getDeviceChildLst(#{params.id},#{params.customerId}))
+          and mp.meas_type_id = mt.id
+	</select>
+	
+	
+	<update id="update">
+		update bsd_device t
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="no != null">
+				no = #{no},
+			</if>
+			<if test="deviceTypeId != null">
+				device_type_id = #{deviceTypeId},
+			</if>
+			<if test="parentId != null">
+				parent_id = #{parentId},
+			</if>
+			<if test="isStart != null">
+				is_start = #{isStart},
+			</if>
+			<if test="customerId != null">
+				customer_id = #{customerId},
+			</if>
+			<if test="vandorId != null">
+				vandor_id = #{vandorId},
+			</if>
+			<if test="sort != null">
+				sort = #{sort},
+			</if>
+			<if test="rpdNo != null">
+				rdp_no = #{rpdNo},
+			</if>
+			update_time = #{updateTime}
+		</set>
+		where t.id = #{id}
+	</update>
+	
+	
+	<update id="deleteDevice" >
+		update bsd_device t set del_flag = '1'
+  	     where FIND_IN_SET(t.id, getDeviceChildLst(#{id},#{customerId}))
+	</update>
+ -->
+</mapper>

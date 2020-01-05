@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en-us" id="extr-page">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../../css/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+<link rel="stylesheet" href="../../../css/ztree/zTree.css" type="text/css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../../layui/css/layui.css">
+<link rel="stylesheet" href="../../../css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="../../../css/bootstrap-table.css" type="text/css">
+<link rel="stylesheet" href="../../../css/common.css" type="text/css">
+</head>
+<body>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				
+		<div class="form-inline">
+			<div class="form-group" style="border-bottom: 3px solid #337AB7; width:100%;" >
+				<div class="form-group pull-right">
+					<ul id="Ul1" class="nav nav-tabs my-nav my-nav-tabs" style="border-bottom: 0px solid #337AB7;">
+						
+					    <!--<li id="tab7" class="myTab pull-right"><a href="#" data-toggle="tab" onclick="showPage(7)">谐波</a></li> -->
+						
+						<li id="tab5" class="myTab pull-right"><a href="#" data-toggle="tab" onclick="showPage(5)">功率因数</a></li>
+						
+						<li id="tab4" class="myTab pull-right"><a href="#" data-toggle="tab" onclick="showPage(4)">电流</a></li>
+						
+						<li id="tab3" class="myTab pull-right"><a href="#" data-toggle="tab" onclick="showPage(3)">电压</a></li>
+						
+					    <!-- <li id="tab2" class="myTab pull-right "><a href="#" data-toggle="tab" onclick="showPage(2)">示数</a></li> -->
+						
+						<li id="tab6" class="myTab pull-right"><a href="#" data-toggle="tab" onclick="showPage(6)">电量</a></li>
+						
+						<li id="tab1" class="myTab pull-right active"><a href="#" data-toggle="tab" onclick="showPage(1)">负荷</a></li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="box" class="form-inline" style="margin-top: 5px; overflow: hidden;" >
+			<div style="float: left;margin-left: 10px;width:calc(100% - 220px)">
+				<table id="dt-table" class="table table-striped table-bordered table-hover" style="width:100%"></table>
+			</div>
+			<img src="../../img/prediction/model6.png" alt="图片在这里">
+		</div>
+	</div>
+
+	<script type="text/javascript" src="../../../js/libs/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="../../../js/jq.js"></script>
+	<script type="text/javascript" src="../../../js/common.js"></script>
+	<script type="text/javascript" src="../../../layui/layui.js"></script>
+	<script type="text/javascript" src="../../../js/libs/jquery.ztree.all-3.5.min.js"></script>
+	<script type="text/javascript" src="../../../js/module/ztree-device.js"></script>
+	<script type="text/javascript" src="../../../js/module/elec/dayElectricList.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../../../js/plugin/mqttws31.js"></script>
+	<script type="text/javascript" src="../../../js/plugin/bootstraptable/bootstrap-table.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../../../js/plugin/bootstraptable/bootstrap-table-zh-CN.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../../../js/plugin/bootstrap/bootstrap.min.js"></script>
+	
+	<script type="text/javascript">
+	 
+		var deviceId;
+		var pageId = 1;
+	    var electricData = [];
+		
+		//查询
+		function Search(){
+			showPage(pageId);
+		}
+		
+		function showPage(i) {
+			pageId = i;
+		    switch (i) {
+		        case 1:
+		        	new ElectricTableInit().Init();  //负荷
+		            break;
+		        case 2:
+		        	new IndicateTableInit().Init();  //示数
+		            break;
+		        case 3:
+		        	new VoltageTableInit().Init();   //电压
+		            break;
+		        case 4:
+		        	new CurrentTableInit().Init();   //电流
+		            break;
+		        case 5:
+		        	new FactorTableInit().Init();    //功率因数
+		            break;
+		        case 6:
+		        	new PowerTableInit().Init();     //电量
+		            break;
+		        default:
+		    }
+		    
+		}
+		
+		function operateFormatter(value, row, index){
+			return '<a style="cursor:pointer;" href="dayElectricChart.html?deviceId='+row.id+'&date='+row.date+'&measName='+row.name+'&pageId='+pageId+'">'+value+'</a>';
+		}
+
+		function showSub(deviceId,deviceName){
+			pageTransition(0, $(".pt-page-1"), $(".pt-page-2"));
+			$("#ShowData").attr("src", "dayData.html?token="+getParams("token")+"&workspace="+workspace+"&deviceId="+deviceId+"&date="+date);
+			$("#spanName").text("[ " + stationName+"-"+deviceName + " ]");
+		}
+
+        // var ElectricTableInit = function () {
+        //     var oTableInit = new Object();
+        //     //初始化Table
+        //     oTableInit.Init = function () {
+        //         $('#dt-table').bootstrapTable('destroy').bootstrapTable({
+        //             url: '/elec/dayElectric/list',      //请求后台的URL（*）
+        //             method: 'get',                      //请求方式（*）
+        //             dataField: 'rows',
+        //             striped: true,                      //是否显示行间隔色
+        //             cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+        //             sortable: false,                     //是否启用排序
+        //             sortOrder: "asc",                   //排序方式
+        //             queryParams: oTableInit.queryParams,//传递参数（*）
+        //             sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+        //             showColumns: true,                  //是否显示所有的列
+        //             clickToSelect: true,                //是否启用点击选中行
+        //             height: height,                     //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+        //             uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+        //             detailView: false,                  //是否显示父子表
+        //             columns: [
+        //                 [{
+        //                     field: 'id',
+        //                     title: '序号',
+        //                     rowspan: 2,
+        //                     sortable: true,
+        //                     align: 'center',
+        //                     valign: 'middle',
+        //                     formatter: formatID
+        //                 }, {
+        //                     field: 'name',
+        //                     title: '监测点',
+        //                     rowspan: 2,
+        //                     align: 'center',
+        //                     valign: 'middle',
+        //                     formatter: operateFormatter
+        //                 }, {
+        //                     field: 'date',
+        //                     title: '日期',
+        //                     rowspan: 2,
+        //                     align: 'center',
+        //                     valign: 'middle'
+        //                 }, {
+        //                     title: '负荷(KW)',
+        //                     colspan: 5,
+        //                     align: 'center'
+        //                 }],
+        //                 [{
+        //                     field: 'maxP',
+        //                     title: '最大负荷',
+        //                     sortable: true,
+        //                     align: 'center'
+        //                 }, {
+        //                     field: 'minP',
+        //                     title: '最小负荷',
+        //                     sortable: true,
+        //                     align: 'center'
+        //                 },{
+        //                     field: 'meanP',
+        //                     title: '平均负荷',
+        //                     sortable: true,
+        //                     align: 'center'
+        //                 },{
+        //                     field: 'maxMinDiffP',
+        //                     title: '峰谷差率',
+        //                     sortable: true,
+        //                     align: 'center'
+        //                 },{
+        //                     field: 'avgP',
+        //                     title: '负荷率',
+        //                     sortable: true,
+        //                     align: 'center'
+        //                 }
+        //                 ]]
+        //         });
+        //     };
+
+            //得到查询的参数
+            oTableInit.queryParams = function (params) {
+                var temp = {
+                    type:'electric',
+                    deviceId: deviceId,
+                    date:$('#date').val(),
+                    measPointType:'P'
+                };
+                return temp;
+            };
+
+            return oTableInit;
+        };
+	</script>
+</body>
+</html>

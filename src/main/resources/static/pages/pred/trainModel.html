@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../css/font-awesome/css/font-awesome.css" type="text/css">
+    <link rel="stylesheet" href="../../css/pingendo/theme.css" type="text/css">
+</head>
+
+<body>
+<div class="py-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"> <a href="" class="nav-link active" data-toggle="tab" data-target="#tabone">特征模型</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="" data-toggle="tab" data-target="#tabtwo">时间序列模型</a> </li>
+                </ul>
+                <div class="tab-content mt-2">
+                    <!--特征模型开始 -->
+                    <div class="tab-pane fade active show" id="tabone" role="tabpanel">
+                        <p class="text-danger">*请先进行特征分析 </p>
+                        <div class="row">
+                            <div class="col-md-12 p-2">
+                                <div class="form-check form-check-inline"> <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" value="option1" id="inlineRadio1" name="inlineRadioOptions" checked="checked"> 默认 </label> </div>
+                                <div class="form-check form-check-inline"> <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" value="option2" id="inlineRadio2" name="inlineRadioOptions"> 自定义 </label> </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="form-check"> <input class="form-check-input" type="checkbox" value=""><label class="form-check-label"> 节假日 </label> </div>
+                                    <div class="form-check"> <input class="form-check-input" type="checkbox" value=""><label class="form-check-label"> 星期几 </label> </div>
+                                    <div class="form-check"> <input class="form-check-input" type="checkbox" value=""><label class="form-check-label"> 最高温 </label> </div>
+                                    <div class="form-check"> <input class="form-check-input" type="checkbox" value=""><label class="form-check-label"> 最低温 </label> </div>
+                                    <div class="form-check"> <input class="form-check-input" type="checkbox" value=""><label class="form-check-label"> 平均温度 </label> </div>
+                                    <div class="form-check"> <input class="form-check-input" type="checkbox" value=""><label class="form-check-label"> 前1天 </label> </div>
+                                    <div class="form-check"> <input class="form-check-input" type="checkbox" value=""><label class="form-check-label"> 前2天 </label> </div>
+                                    <div class="form-check"> <input class="form-check-input" type="checkbox" value=""><label class="form-check-label"> 前3天 </label> </div>
+                                    <div class="form-check"> <input class="form-check-input" type="checkbox" value=""><label class="form-check-label"> 前4天 </label> </div>
+                                    <div class="form-check"> <input class="form-check-input" type="checkbox" value=""><label class="form-check-label"> 前5天 </label> </div>
+                                    <div class="form-check"> <input class="form-check-input" type="checkbox" value=""><label class="form-check-label"> 前6天 </label> </div>
+                                    <div class="form-check"> <input class="form-check-input" type="checkbox" value=""><label class="form-check-label"> 前7天 </label> </div>
+                                    <div class="form-check"> <input class="form-check-input" type="checkbox" value=""><label class="form-check-label"> 前8天 </label> </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary my-5">开始分析</button>
+                            </div>
+                            <div class="col-md-6">
+                                <img class="card-img-top" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4><strong>预测模型</strong></h4>
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item"> <a href="" class="nav-link active" data-toggle="pill" data-target="#svr">SVR</a> </li>
+                                    <li class="nav-item"> <a class="nav-link" href="" data-toggle="pill" data-target="#decisionTree">DecisionTree</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#adaboost">AdaBoost</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#extraTrees">ExtraTress</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#RandomForest">RandomForest</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#grandientBoosting">GrandientBoosting</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#kNeighbour">KNeighbour</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#adaBoost">AdaBoost</a> </li>
+                                </ul>
+                                <div class="tab-content mt-2">
+                                    <div class="tab-pane fade active show" id="svr" role="tabpanel" style="">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <title>参数</title>
+                                                <table class="table table-hover table-striped table-bordered">
+                                                    <thead class="thead-inverse">
+                                                    <tr>
+                                                        <th scope="col">参数</th>
+                                                        <th scope="col">值</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>example</td>
+                                                        <td>one</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>example</td>
+                                                        <td>two</td>
+                                                    </tr>
+                                                    <tr class="bg-info">
+                                                        <td>example</td>
+                                                        <td>three</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <a class="btn btn-link m-2" href="#">修改</a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 py-3">
+                                                <div class="card pi-draggable" draggable="true">
+                                                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pi-draggable" draggable="true"></i>
+                                                    <img class="card-img-top" src="https://static.pingendo.com/cover-moon.svg" alt="Card image cap">
+                                                    <div class="card-body">
+                                                        <h6 class="card-title">学习曲线</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 py-3">
+                                                <div class="card pi-draggable" draggable="true">
+                                                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pi-draggable" draggable="true"></i>
+                                                    <img class="card-img-top" src="https://static.pingendo.com/cover-moon.svg" alt="Card image cap">
+                                                    <div class="card-body">
+                                                        <h6 class="card-title">预测分析</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="decisionTree" role="tabpanel">
+                                        <p class="">decisionTree.</p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="card pi-draggable" draggable="true">
+                                                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pi-draggable" draggable="true"></i>
+                                                    <img class="card-img-top" src="https://static.pingendo.com/cover-moon.svg" alt="Card image cap">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">学习曲线</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card pi-draggable" draggable="true">
+                                                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pi-draggable" draggable="true"></i>
+                                                    <img class="card-img-top" src="https://static.pingendo.com/cover-moon.svg" alt="Card image cap">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">预测分析</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="adaboost" role="tabpanel">
+                                        <p class="">AdaBoost.</p>
+                                    </div>
+                                    <div class="tab-pane fade" id="extraTrees" role="tabpanel">
+                                        <p class="">ExtraTrees</p>
+                                    </div>
+                                    <div class="tab-pane fade" id="RandomForest" role="tabpanel">
+                                        <p class="">RandmForest</p>
+                                    </div>
+                                    <div class="tab-pane fade" id="grandientBoosting" role="tabpanel">
+                                        <p class="">GrandientBoosting</p>
+                                    </div>
+                                    <div class="tab-pane fade" id="kNeighbour" role="tabpanel">
+                                        <p class="">KNeighbour.</p>
+                                    </div>
+                                    <div class="tab-pane fade" id="adaBoost" role="tabpanel">
+                                        <p class="">AdaBoost.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 时间序列模型-->
+                    <div class="tab-pane fade" id="tabtwo" role="tabpanel">
+                        <p class="text-danger">*请先进行特征分析</p>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form id="c_form-h" class="pi-draggable" draggable="true">
+                                    <div class="form-group row"> <label class="col-2 col-form-label">选择预测历史天数：</label>
+                                        <div class="col-10">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="历史天数">
+                                                <div class="input-group-append"><button class="btn btn-primary" type="button">开始建模</button></div>
+                                            </div>
+                                            <p class="text-danger">*输入格式错误，请重新输入</p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4><strong>预测模型</strong></h4>
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item"> <a href="" class="nav-link active" data-toggle="pill" data-target="#arima">ARIMA</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#gru">GRU</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#lstm">LSTM</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#rnn">RNN</a> </li>
+                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#seq2seq">Seq2Seq</a> </li>
+                                </ul>
+                                <div class="tab-content mt-2">
+                                    <div class="tab-pane fade active show" id="arima" role="tabpanel" style="">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <title>参数</title>
+                                                <table class="table table-hover table-striped table-bordered">
+                                                    <thead class="thead-inverse">
+                                                    <tr>
+                                                        <th scope="col">参数</th>
+                                                        <th scope="col">值</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>example</td>
+                                                        <td>one</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>example</td>
+                                                        <td>two</td>
+                                                    </tr>
+                                                    <tr class="bg-info">
+                                                        <td>example</td>
+                                                        <td>three</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <a class="btn btn-link m-2" href="#">修改</a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 py-3">
+                                                <div class="card pi-draggable" draggable="true">
+                                                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pi-draggable" draggable="true"></i>
+                                                    <img class="card-img-top" src="https://static.pingendo.com/cover-moon.svg" alt="Card image cap">
+                                                    <div class="card-body">
+                                                        <h6 class="card-title">学习曲线</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 py-3">
+                                                <div class="card pi-draggable" draggable="true">
+                                                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pi-draggable" draggable="true"></i>
+                                                    <img class="card-img-top" src="https://static.pingendo.com/cover-moon.svg" alt="Card image cap">
+                                                    <div class="card-body">
+                                                        <h6 class="card-title">预测分析</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="gru" role="tabpanel">
+                                        <p class="">gru.</p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="card pi-draggable" draggable="true">
+                                                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pi-draggable" draggable="true"></i>
+                                                    <img class="card-img-top" src="https://static.pingendo.com/cover-moon.svg" alt="Card image cap">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">学习曲线</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card pi-draggable" draggable="true">
+                                                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pi-draggable" draggable="true"></i>
+                                                    <img class="card-img-top" src="https://static.pingendo.com/cover-moon.svg" alt="Card image cap">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">预测分析</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="lstm" role="tabpanel">
+                                        <p class="">lstm.</p>
+                                    </div>
+                                    <div class="tab-pane fade" id="rnn" role="tabpanel">
+                                        <p class="">rnn</p>
+                                    </div>
+                                    <div class="tab-pane fade" id="seq2seq" role="tabpanel">
+                                        <p class="">seq2seq</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../js/pingendo/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../js/pingendo/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous" style=""></script>
+<script src="../../js/pingendo/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous" style=""></script>
+</body>
+
+</html>

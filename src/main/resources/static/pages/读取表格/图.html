@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="width:2000px;height:800px; margin: 0">
+        <!-- <input type="text" id="name">   -->
+        <!-- <button type="button" onclick="copyText()">查询</button> -->
+        <div id="container" style="width:2000px;height:800px;"></div>
+       <script type="text/javascript" src="papaparse.js"></script>
+       <script type="text/javascript" src="jquery-2.2.3.min.js"></script>
+       <script type="text/javascript" src="echarts.min.js"></script>
+
+
+<script type="text/javascript">
+	var dom = document.getElementById("container");
+	var myChart = echarts.init(dom);
+	var app = {};
+	var option = null;
+	option = {
+	    legend: {
+	    	data:[]
+	    },
+	    tooltip: {},
+	    dataset: {
+	        source: []
+	    },
+	    grid:{
+	    	bottom:'15%'
+	    },
+	    xAxis: {
+	    	type: 'category',
+	    	data:[],
+	    	axisLabel:{
+	    		rotate:90
+	    	}
+	    },
+	    yAxis: {},
+	    // Declare several bar series, each will be mapped
+	    // to a column of dataset.source by default.
+	    series: []
+	};
+
+    myChart.setOption(option, true);
+
+
+	var copyText = function(file){
+	    Papa.parse(file, {
+	        download: true,
+	        complete: function(results) {
+	            var data = results.data, html;
+	            var xaixsdata=[];
+	            var seriesdata=[];
+	            for (var i = 1; i < data.length; i++) {
+	            	var hour=data[i][1];
+	            	var minu=(hour-parseInt(hour))*60;
+	            	var time=''+data[i][2]+'-'+data[i][3]+'-'+data[i][4]+' '+parseInt(hour)+':'+parseInt(minu)+':'+parseInt((minu-parseInt(minu))*60);
+	            	xaixsdata.push(time);
+	            	seriesdata.push(parseFloat(data[i][5]));
+	            	
+	            	
+	            };
+
+				console.log(data);
+				option.xAxis.data=xaixsdata;
+				option.series.push({
+					type:'line',
+					name:file,
+					symbol:'none',
+					data:seriesdata
+				});
+				option.legend.data.push(file);
+		        myChart.setOption(option)
+	        }
+	    });
+	};
+copyText('某保安服务公司0.4kV1进线总柜预测.csv')
+</script>
+
+   </body>
+</html>

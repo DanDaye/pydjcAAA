@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" media="screen"
+	href="../../../../css/bootstrap.min.css">
+</head>
+<body>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<form class="form-horizontal" onsubmit="return false" id="form">
+			<fieldset>
+				<div class="form-group">
+					<label class="col-md-2 control-label">量测类型名称</label>
+					<div class="col-md-10">
+						<input class="form-control" placeholder="量测类型名称" type="text"
+							name="name" data-bv-notempty="true"
+							data-bv-notempty-message="量测类型名称不能为空">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-2 control-label">量测类型编码</label>
+					<div class="col-md-10">
+						<input class="form-control" placeholder="量测类型编码" type="text"
+							name="code" data-bv-notempty="true"
+							data-bv-notempty-message=" 量测类型编码不能为空">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label">645编码</label>
+					<div class="col-md-10">
+						<input class="form-control" placeholder="645编码" type="text"
+							maxlength="20" name="code645">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-2 control-label">所属监测类型</label>
+					<div class="col-md-10 form-inline">
+						<select class="selectpicker show-tick form-control"
+							data-live-search="true" name="monitorTypeId" id="monitorType">
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label">数据类型</label>
+					<div class="col-md-10 form-inline">
+						<select class="selectpicker show-tick form-control"
+							data-live-search="true" name="fc" id="fc">
+							<option value="yc">遥测</option>
+							<option value="yx">遥信</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label">单位</label>
+					<div class="col-md-10">
+						<input class="form-control" placeholder="单位" type="text"
+							maxlength="20" name="unit">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label">标准值</label>
+					<div class="col-md-10">
+						<input class="form-control" placeholder="标准值" type="text"
+							maxlength="50" name="standardValue">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label">一级下限阈值</label>
+					<div class="col-md-10">
+						<input class="form-control" placeholder="一级下限阈值" type="text"
+							maxlength="50" name="oneLowerLimit">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label">一级上限阈值</label>
+					<div class="col-md-10">
+						<input class="form-control" placeholder="一级上限阈值" type="text"
+							maxlength="50" name="oneUpperLimit">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label">二级下限阈值</label>
+					<div class="col-md-10">
+						<input class="form-control" placeholder="二级下限阈值" type="text"
+							maxlength="50" name="twoLowerLimit">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label">二级上限阈值</label>
+					<div class="col-md-10">
+						<input class="form-control" placeholder="二级上限阈值" type="text"
+							maxlength="50" name="twoUpperLimit">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label">三级下限阈值</label>
+					<div class="col-md-10">
+						<input class="form-control" placeholder="三级下限阈值" type="text"
+							maxlength="50" name="threeLowerLimit">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label">三级上限阈值</label>
+					<div class="col-md-10">
+						<input class="form-control" placeholder="三级上限阈值" type="text"
+							maxlength="50" name="threeUpperLimit">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label">阈值单位</label>
+					<div class="col-md-10">
+						<input class="form-control" placeholder="阈值单位" type="text"
+							maxlength="50" name="limitUnit">
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<label class="col-md-2 control-label">是否启用</label>
+					<div class="checkbox">
+						<label><input type='checkbox' id="isStart">启用</label>
+					</div>
+				</div>
+	
+
+	<div class="form-actions">
+		<div class="row" align="center">
+			<div class="col-md-12">
+				<button class="btn btn-primary"
+					onclick="location.href='measTypeList.html'">返回</button>
+				<button class="btn btn-primary" type="submit" onclick="add()">
+					<i class="fa fa-save"></i> 保存
+				</button>
+			</div>
+		</div>
+	</div>
+
+	</fieldset>
+	</form>
+	</div>
+	<script type="text/javascript"
+		src="../../../../js/libs/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="../../../../js/jq.js"></script>
+	<script type="text/javascript"
+		src="../../../../js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
+	<script type="text/javascript" src="../../../../js/common.js"></script>
+	<script type="text/javascript" src="../../../js/module/bsd/measType.js"></script>
+	<script type="text/javascript" src="../../../../layui/layui.js"></script>
+	<script type="text/javascript">
+		layui.use([ 'layer', 'laydate' ], function() {
+			var layer = layui.layer;
+			var laydate = layui.laydate;
+			laydate.render({
+				elem : '#birthday'
+			});
+		});
+
+		//initRoles();
+		//initCustomers();
+		initMonitorType();
+
+		$('#form').bootstrapValidator();
+		
+		function add() {
+			var bootstrapValidator = $("#form").data('bootstrapValidator');
+			bootstrapValidator.validate();
+			if (!bootstrapValidator.isValid()) {
+				return;
+			}
+			getCheckedMeasTypeIdsBak();
+			var formdata = $("#form").serializeObject();
+			getCheckedMeasTypeIds();
+			
+
+			$.ajax({
+				type : 'post',
+				url : '/measType',
+				contentType : "application/json; charset=utf-8",
+				data : JSON.stringify(formdata),
+				success : function(data) {
+					layer.msg("添加成功", {
+						shift : -1,
+						time : 1000
+					}, function() {
+						location.href = "measTypeList.html";
+					});
+				}
+			});
+		}
+
+		function initMonitorType() {
+			$.ajax({
+				type : 'get',
+				url : '/monitorType/getAllMonitorType',
+				async : false,
+				success : function(data) {
+					var select = $("#monitorType");
+					for (var i = 0; i < data.length; i++) {
+						var v = data[i];
+						select.append("<option value='" + v.id + "'>" + v.name
+								+ "</option>")
+					}
+				}
+			});
+		}
+		
+
+		function getCheckedMeasTypeIdsBak() {
+			var ids = [];
+			console.log($("#isStart"));
+			console.log($("#isStart input[type='checkbox']"));
+			$("#isStart input[type='checkbox']").each(function() {
+				
+				if ($(this).prop("checked")) {
+					ids.push($(this).val(1));
+				}else{
+					ids.push($(this).val(0));
+				}
+			});
+
+			return ids;
+		}
+	</script>
+</body>
+</html>
