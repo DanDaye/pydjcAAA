@@ -14,30 +14,29 @@
     <div class="container">
         <div class="row my-4 justify-content-center">
             <div class="col-md-9">
-                <form>
                     <nav class="navbar navbar-dark input-group col-md-9">
                         <div class="container">
                             <div class="form-text"><b>数据来源:</b></div>
                             <div class="form-check form-check-inline"> <label class="form-check-label">
-                                <input class="form-check-input" type="radio" value="option1" id="inlineRadio1" name="inlineRadioOptions"> 历史数据 </label> </div>
+                                <input class="form-check-input" type="radio" value="option1" id="historicalData" name="dataFrom" onclick="fileUploadAuto()"> 历史数据 </label> </div>
                             <div class="form-check form-check-inline disabled"> <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" checked="checked"> 来自文件 </label> </div>
+                                <input class="form-check-input" type="radio" name="dataFrom" id="fileData" value="option2" checked="checked" onclick="fileUploadAuto()"> 来自文件 </label> </div>
                         </div>
                     </nav>
-                    <div class="container">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="请选择文件">
-                            <div class="input-group-append"><button class="btn btn-primary" type="button">上传</button></div>
+                    <div class="container" id="ifUpload">
+                        <form id="uploadFile" method="post" enctype="multipart/form-data">
+                        <div class="input-group" >
+                            <input type="text" class="form-control" id="fileName" placeholder="请选择文件">
+                            <div class="input-group-append"><button class="btn btn-primary" id="fileUpload" type="button">上传</button></div>
                         </div>
                         <p class="lead text-danger">*文件格式错误，请重新选择</p>
-                        <a href="#" class="btn btn-primary m-2">开始分析</a>
+                        </form>
                     </div>
-                </form>
+                    <a href="#" class="btn btn-primary m-2">开始分析</a>
             </div>
         </div>
     </div>
-    <div class="">
-        <div class ="container">
+        <div class ="container" id="showPicture">
             <div class="row">
                 <div class="col-md-6 p-3">
                     <div class="card box-shadow">
@@ -75,12 +74,33 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
 <script src="../../js/pingendo/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="../../js/pingendo/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="../../js/pingendo/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
+<script>
+    function fileUploadAuto() {
+        var show ="";
+        var optional = document.getElementsByName("dataFrom");
+        for (var i=0;i<optional.length;i++){
+            if (optional[i].checked){
+                show=optional[i].id;
+            }
+        }
+        // document.getElementById("fileName").value=show;
+        switch (show) {
+            case "historicalData":
+                document.getElementById("ifUpload").style.display="none";
+                document.getElementById("showPicture").style.display="none";
+                break;
+            case "fileData":
+            default:
+                document.getElementById("ifUpload").style.display="block";
+                document.getElementById("showPicture").style.display="block";
+                break;
+        }
+    }
+</script>
 </body>
 
 </html>
