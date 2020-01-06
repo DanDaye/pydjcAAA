@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
   datasource:
 #    driver-class-name: com.mysql.jdbc.Driver
 #    url: jdbc:mysql://127.0.0.1:3306/pydjc?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
@@ -31,6 +35,9 @@ spring:
   mvc:
     servlet:
       load-on-startup: 1
+    view:
+      prefix: /
+      suffix: .html
   redis:
     host: 127.0.0.1
     port: 6379
