@@ -67,7 +67,7 @@ token:
   expire:
     seconds: 86400
 server:
-  port: 8088
+  port: 8089
 influxdb:
   url: http://10.82.58.95:8086
   db: pydjc

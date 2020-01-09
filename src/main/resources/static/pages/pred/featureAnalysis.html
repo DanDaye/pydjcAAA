@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <!-- CSS dependencies -->
     <link rel="stylesheet" href="../../css/font-awesome/css/font-awesome.css" type="text/css">
     <link rel="stylesheet" href="../../css/pingendo/theme.css">
@@ -23,6 +25,11 @@
                                 <input class="form-check-input" type="radio" name="dataFrom" id="fileData" value="option2" checked="checked" onclick="fileUploadAuto()"> 来自文件 </label> </div>
                         </div>
                     </nav>
+                <div class="container" id="fromHistory">
+                    <div class="form-group my-3 col-md-12">
+                        <ul class="l" id="historyFileList"/>
+                    </div>
+                </div>
                     <div class="container" id="ifUpload">
                         <form id="form" enctype="multipart/form-data" onsubmit="return false">
                             <div class="input-group">
@@ -32,7 +39,7 @@
                             <input class="lead text-danger" id="fileFormat" value="" name="fileFormat" style="border: 0;background-color: transparent;" readonly>
                         </form>
                     </div>
-                    <input class="btn btn-primary m-2" type="submit" value="开始分析" id="startAnalysis" name="startAnalysis" disabled>
+                    <input class="btn btn-primary m-2" type="submit" value="开始分析" id="startAnalysis" name="startAnalysis" onclick="startAnalysis()">
             </div>
         </div>
     </div>
@@ -40,7 +47,9 @@
             <div class="row">
                 <div class="col-md-6 p-3">
                     <div class="card box-shadow">
-                        <img class="card-img-top" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg">
+                        <i class="fa fa-spinner fa-spin fa-3x fa-fw pi-draggable" draggable="true" id="loading1"></i>
+                        <!--<img class="card-img-top" id="loadAndWeather"/>-->
+                        <div id="loadAndWeather" style="width: 500px;height:400px;"></div>
                         <div class="card-body">
                             <p class="card-text">电力负荷和温度变化情况</p>
                         </div>
@@ -48,7 +57,9 @@
                 </div>
                 <div class="col-md-6 p-3">
                     <div class="card box-shadow">
-                        <img class="card-img-top" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg">
+                        <i class="fa fa-spinner fa-spin fa-3x fa-fw pi-draggable" draggable="true" id="loading2"></i>
+                        <!--<img class="card-img-top" id="box">-->
+                        <div id="box" style="width: 500px;height:400px;"></div>
                         <div class="card-body">
                             <p class="card-text">特征箱型图</p>
                         </div>
@@ -58,7 +69,9 @@
             <div class="row">
                 <div class="col-md-6 p-3">
                     <div class="card box-shadow">
-                        <img class="card-img-top" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg">
+                        <i class="fa fa-spinner fa-spin fa-3x fa-fw pi-draggable" draggable="true" id="loading3"></i>
+                        <!--<img class="card-img-top"  id="heat">-->
+                        <div id="heat" style="width: 500px;height:400px;"></div>
                         <div class="card-body">
                             <p class="card-text">特征与电力负荷的相关性</p>
                         </div>
@@ -66,7 +79,9 @@
                 </div>
                 <div class="col-md-6 p-3">
                     <div class="card box-shadow">
-                        <img class="card-img-top" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg">
+                        <i class="fa fa-spinner fa-spin fa-3x fa-fw pi-draggable" draggable="true" id="loading4"></i>
+                        <!--<img class="card-img-top" id="featureScore">-->
+                        <div id="featureScore" style="width: 500px;height:400px;"></div>
                         <div class="card-body">
                             <p class="card-text">特征重要性</p>
                         </div>
@@ -76,68 +91,11 @@
         </div>
 </div>
 <script src="../../js/libs/jquery-2.1.1.min.js" type="text/javascript"></script>
-<script src="../../js/pingendo/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="../../js/pingendo/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-<script>
-    // 文件上传
-    function fileUploadAuto() {
-        var show ="";
-        var optional = document.getElementsByName("dataFrom");
-        for (var i=0;i<optional.length;i++){
-            if (optional[i].checked){
-                show=optional[i].id;
-            }
-        }
-        // document.getElementById("fileName").value=show;
-        switch (show) {
-            case "historicalData":
-                document.getElementById("ifUpload").style.display="none";
-                document.getElementById("showPicture").style.display="none";
-                break;
-            case "fileData":
-            default:
-                document.getElementById("ifUpload").style.display="block";
-                document.getElementById("showPicture").style.display="block";
-                break;
-        }
-    }
-    //文件选择后上传问题
-    function uploadCsv(){
-        console.log("btn click");
-        var fileObj = document.getElementById("csvFile").files[0];
-        console.log(fileObj);
-        if (fileObj == undefined){
-            console.log("in undefined");
-            document.getElementById("fileFormat").value="*未选择任何文件";
-        }else {
-            var formData = new FormData();
-            formData.append("file", fileObj);
-            $.ajax({
-                type: 'post',
-                url: '/file/upload',
-                contentType: false,
-                processData: false,
-                data: formData,
-                async: false,
-                success: function (data) {
-                    switch (data) {
-                        case "success":
-                            document.getElementById("fileFormat").value="上传成功!";
-                            document.getElementById("startAnalysis").disabled="";
-                            break;
-                        default:
-                            document.getElementById("fileFormat").value=data;
-                            break;
-                    }
-                    console.log(data);
-                },
-                error: function () {
-                    alert("失败");
-                }
-            });
-        }
-    }
-</script>
+<script src="../../js/pingendo/popper.min.js" type="text/javascript"></script>
+<script src="../../js/pingendo/bootstrap.min.js" type="text/javascript"></script>
+<script src="../../js/echarts.min.js" type="text/javascript"></script>
+<script src="../../js/dataTool.js" type="text/javascript"></script>
+<script src="../../js/pred/featureAnalysis.js" type="text/javascript"></script>
 </body>
 
 </html>

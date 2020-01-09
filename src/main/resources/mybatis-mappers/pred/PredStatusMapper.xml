@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wd.pydjc.pred.dao.PredStatusDao">
+    <update id="update">
+        update pred_status p
+        <set>
+            <if test="featureAnalysis != null">
+                featureAnalysis = #{featureAnalysis},
+            </if>
+            <if test="modelAnalysis != null">
+                modelAnalysis = #{modelAnalysis},
+            </if>
+            <if test="svr != null">
+                svr = #{svr},
+            </if>
+            <if test="decisiontree != null">
+                decisiontree = #{decisiontree},
+            </if>
+            <if test="adaboost != null">
+                adaboost = #{adaboost},
+            </if>
+            <if test="extratrees != null">
+                extratrees = #{extratrees},
+            </if>
+            <if test="randomforest != null">
+                randomforest = #{randomforest},
+            </if>
+            <if test="grandientboosting != null">
+                grandientboosting = #{grandientboosting},
+            </if>
+            <if test="kneighbour != null">
+                kneighbour = #{kneighbour},
+            </if>
+            <if test="arima != null">
+                arima = #{arima},
+            </if>
+            <if test="gru != null">
+                gru = #{gru},
+            </if>
+            <if test="lstm != null">
+                lstm = #{lstm},
+            </if>
+            <if test="rnn != null">
+                rnn = #{rnn},
+            </if>
+            <if test="seq2seq != null">
+                seq2seq = #{seq2seq},
+            </if>
+        </set>
+        where p.salt = #{salt}
+    </update>
+</mapper>
